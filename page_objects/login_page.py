@@ -14,7 +14,7 @@ class LoginPage(BasePage):
         self.navigate(URL.LOGIN.value, StellarBurgersLoginLocators.TITLE_FORM)
 
     def enter_email(self, email):
-        self.enter_test(StellarBurgersLoginLocators.EMAIL, email)
+        self.enter_email(StellarBurgersLoginLocators.EMAIL, email)
 
     def enter_password(self, password):
         self.enter_test(StellarBurgersLoginLocators.PASSWORD, password)

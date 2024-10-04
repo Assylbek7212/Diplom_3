@@ -1,12 +1,20 @@
-from selenium.webdriver.common.by import By
+import allure
+from locators.feed_locators import FeedPageLocators
+from base_page import BasePage
+from ..data.urls import FEED_URL
 
-class FeedPage:
+class FeedPage(BasePage):
     def __init__(self, driver):
-        self.driver = driver
-        self.feed_orders = (By.XPATH, "//div[contains(@class, 'feed__order')]")
+        super().__init__(driver)
+        self.locators = FeedPageLocators
 
+    @allure.step("Открытие страницы с лентой заказов")
     def open_feed(self):
-        self.driver.get("https://stellarburgers.nomoreparties.site/feed")
+        """Открытие страницы с лентой заказов"""
+        self.go_to(FEED_URL)
 
+    @allure.step("Получение списка заказов из ленты")
     def get_feed_orders(self):
-        return [order.text for order in self.driver.find_elements(*self.feed_orders)]
+        """Получение всех заказов на странице ленты"""
+        orders = self.find_elements(self.locators.FEED_ORDERS)
+        return [order.text for order in orders]
