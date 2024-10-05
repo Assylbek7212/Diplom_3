@@ -5,6 +5,8 @@ from page_objects.personal_area_page import PersonalArea
 from page_objects.profile_page import ProfilePage
 from page_objects.login_page import LoginPage
 from config import URL
+from locators.login_locators import StellarBurgersLoginLocators
+
 
 
 @pytest.mark.usefixtures("login")
@@ -34,7 +36,7 @@ class TestPersonalArea:
 
         assert home_page.is_at_url(URL.LOGIN.value), "Пользователь не был перенаправлен на страницу логина"
 
-        assert home_page.wait_for_element(LoginPage.TITLE_FORM).is_displayed(), "Форма логина не отображается"
+        assert home_page.wait_for_element(StellarBurgersLoginLocators.TITLE_FORM).is_displayed(), "Форма логина не отображается"
 
     @allure.title('Проверка выхода из личного кабинета для авторизованного пользователя')
     def test_logout_from_personal_area_authorized_user(self, web_driver):

@@ -1,4 +1,3 @@
-# tests/test_redirect.py
 import allure
 import pytest
 from page_objects.header import Header
@@ -19,10 +18,8 @@ class TestRedirect:
 
         header.go_to_constructor()
 
-        # Ожидание появления элемента
         home_page.wait_for_element(home_page.locators.DIV_BUNS)
 
-        # Проверка URL страницы
         assert home_page.is_at_url(DOMEN), f"Ожидался URL: {DOMEN}, но получен: {home_page.get_current_url()}"
 
     @allure.title('Переход по клику на «Лента заказов»')
@@ -33,10 +30,8 @@ class TestRedirect:
 
         header.go_to_order_feed()
 
-        # Ожидание появления элемента
         order_page.wait_for_element(order_page.locators.ORDERS_PAGE)
 
-        # Проверка URL страницы
         assert order_page.is_at_order_feed(), f"Ожидался URL: {URL.FEED.value}, но получен: {order_page.get_current_url()}"
 
     @allure.title('Переход по клику на логотип Stellar Burgers')
@@ -48,10 +43,8 @@ class TestRedirect:
         header.go_to_order_feed()
         header.click_logo()
 
-        # Ожидание появления элемента
         home_page.wait_for_element(home_page.locators.LOGIN_BUTTON)
 
-        # Проверка URL
         assert home_page.is_at_url(DOMEN), f"Ожидался URL: {DOMEN}, но получен: {home_page.get_current_url()}"
 
     @allure.title('Переход на страницу логина при доступе к ленте заказов без авторизации')
@@ -64,5 +57,4 @@ class TestRedirect:
 
         header.go_to_order_feed()
 
-        # Проверка, что был выполнен переход на страницу логина
         assert login_page.is_at_url(URL.LOGIN.value), "Пользователь не был перенаправлен на страницу логина"
