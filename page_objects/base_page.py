@@ -1,3 +1,4 @@
+# page_objects/base_page.py
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import allure
@@ -17,16 +18,32 @@ class BasePage:
         """Ожидание видимости элемента на странице"""
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
 
-    @allure.step("Ожидание появления элемента на странице: {locator}")
-    def wait_for_element_to_appear(self, locator, timeout=10):
-        """Ожидание появления элемента на странице"""
-        return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
+    @allure.step("Получение списка элементов: {locator}")
+    def find_elements(self, locator, timeout=10):
+        """Получение списка элементов на странице"""
+        return WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
 
-    @allure.step("Прокрутка к элементу: {locator}")
-    def scroll_to_element(self, locator):
-        """Прокрутка страницы до указанного элемента"""
+    @allure.step("Переход по URL: {url}")
+    def navigate(self, url, expected_element=None):
+        """Открытие указанного URL и ожидание загрузки элемента"""
+        self.driver.get(url)
+        if expected_element:
+            self.wait_for_element(expected_element)
+
+    @allure.step("Ввод текста: {text} в элемент {locator}")
+    def enter_text(self, locator, text):
+        """Ввод текста в указанный элемент"""
         element = self.wait_for_element(locator)
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+        element.clear()
+        element.send_keys(text)
+
+    @allure.step("Клик по элементу: {locator}")
+    def action_click(self, locator, expected_element=None):
+        """Клик по элементу и ожидание загрузки другого элемента, если указан"""
+        element = self.wait_for_element(locator)
+        element.click()
+        if expected_element:
+            self.wait_for_element(expected_element)
 
     @allure.step("Получение текущего URL страницы")
     def get_current_url(self):
@@ -37,8 +54,3 @@ class BasePage:
     def is_at_url(self, url):
         """Проверка, что текущий URL совпадает с ожидаемым"""
         return self.get_current_url() == url
-
-    @allure.step("Выполнение JavaScript кода: {script}")
-    def execute_script(self, script, *args):
-        """Выполнение JavaScript кода на текущей странице"""
-        return self.driver.execute_script(script, *args)
