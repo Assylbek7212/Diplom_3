@@ -1,7 +1,6 @@
 import allure
 from page_objects.base_page import BasePage
 from locators.home_page_locators import StellarBurgersHomePageLocators
-from locators.login_locators import StellarBurgersLoginLocators
 from config import DOMEN
 from config import URL
 
@@ -17,7 +16,7 @@ class HomePage(BasePage):
     @allure.step("Проверка, что форма логина отображается")
     def is_login_form_displayed(self):
         """Проверяет, что форма логина отображается на странице"""
-        return self.wait_for_element(StellarBurgersLoginLocators.TITLE_FORM).is_displayed()
+        return self.wait_for_element(StellarBurgersHomePageLocators.TITLE_FORM).is_displayed()
     @allure.step("Получение названия флуоресцентной булочки на главной странице")
     def get_fluorescent_bun_name(self):
         """Получение имени флуоресцентной булочки на главной странице"""

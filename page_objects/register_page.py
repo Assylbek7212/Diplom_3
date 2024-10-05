@@ -1,7 +1,6 @@
 import allure
 from page_objects.base_page import BasePage
 from locators.register_locators import StellarBurgersRegister
-from locators.login_locators import StellarBurgersLoginLocators
 from config import URL
 
 
@@ -32,7 +31,7 @@ class RegisterPage(BasePage):
     @allure.step("Клик по кнопке регистрации")
     def click_register(self):
         """Клик по кнопке 'Зарегистрироваться'"""
-        self.action_click(StellarBurgersRegister.SUBMIT_BUTTON, StellarBurgersLoginLocators.TITLE_FORM)
+        self.action_click(StellarBurgersRegister.SUBMIT_BUTTON, StellarBurgersRegister.TITLE_FORM)
 
     @allure.step("Регистрация нового пользователя с именем {name}, email {email}")
     def signup(self, name, email, password):
@@ -46,4 +45,4 @@ class RegisterPage(BasePage):
     @allure.step("Проверка, что регистрация прошла успешно и отображается страница логина")
     def is_registration_successful(self):
         """Проверка успешного завершения регистрации по наличию формы логина"""
-        return self.wait_for_element(StellarBurgersLoginLocators.TITLE_FORM).is_displayed()
+        return self.wait_for_element(StellarBurgersRegister.TITLE_FORM).is_displayed()

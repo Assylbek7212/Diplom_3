@@ -7,3 +7,4 @@ class StellarBurgersHomePageLocators:
     DIV_BUNS = (By.XPATH, "//span[text() = 'Булки']/parent::div")  # Тап раздела булки
     BUN_FLUORESCENT = (By.XPATH, "//p[contains(text(), 'Флюоресцентная булка')]/parent::a")  # Флюоресцентная булка
     NAME_BUN_FLUORESCENT = (By.XPATH, "//p[contains(text(), 'Флюоресцентная булка')]") # Название булки
+    TITLE_FORM = (By.XPATH, "//h2[text()='Вход']")  # Название формы авторизации

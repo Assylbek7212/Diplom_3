@@ -7,3 +7,4 @@ class StellarBurgersLoginLocators:
     PASSWORD = (By.XPATH, "//input[@name = 'Пароль']")  # поле ввода пароля
     BUTTON_LOGIN = (By.XPATH, "//button[text()= 'Войти']")  # кнопка 'Войти'
     LINK_FORGOT_PASSWORD = (By.XPATH, "//*/a[@href='/forgot-password']") # ссылка на страницу восстановления пароля
+    CHECKOUT_BUTTON = (By.XPATH, "//section[2]/div/button[text()= 'Оформить заказ']") # Оформить заказ

@@ -6,3 +6,4 @@ class StellarBurgersRegister:
     EMAIL = (By.XPATH, "//label[text() = 'Email']/following::input[1]")  # поле ввода email
     PASSWORD = (By.XPATH, "//input[@name = 'Пароль']")  # поле ввода пароля
     SUBMIT_BUTTON = (By.XPATH, "//button[text()= 'Зарегистрироваться']")  # кнопка 'Зарегистрироваться'
+    TITLE_FORM = (By.XPATH, "//h2[text()='Вход']")  # Название формы авторизации
