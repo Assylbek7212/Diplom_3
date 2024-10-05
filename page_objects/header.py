@@ -2,7 +2,6 @@ import allure
 from page_objects.base_page import BasePage
 from locators.header_locators import StellarBurgersHeader
 
-
 class Header(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
@@ -23,10 +22,20 @@ class Header(BasePage):
         """Клик по кнопке 'Лента заказов' и ожидание появления элемента"""
         self.action_click(self.locators.LINK_ORDER_FEED)
 
-    @allure.step("Ожидание загрузки элемента: {locator}")
-    def wait_for_element(self, locator, timeout=10):
-        """Ожидание загрузки указанного элемента"""
-        self.wait_for_element_to_appear(locator, timeout)
+    @allure.step("Переход в раздел 'Личный кабинет'")
+    def go_to_personal_area(self):
+        """Клик по кнопке 'Личный кабинет' и ожидание загрузки страницы"""
+        self.action_click(self.locators.LINK_PERSONAL_AREA, self.locators.LINK_LOGO)
+
+    @allure.step("Проверка нахождения на главной странице")
+    def is_at_main_page(self):
+        """Проверка, что пользователь находится на главной странице"""
+        return self.is_element_visible(self.locators.LINK_CONSTRUCTOR)
+
+    @allure.step("Проверка, что элемент присутствует")
+    def is_element_visible(self, locator, timeout=10):
+        """Проверка, что элемент присутствует на странице"""
+        return self.wait_for_element(locator, timeout).is_displayed()
 
     @allure.step("Клик по логотипу для перехода на главную страницу")
     def click_logo(self):

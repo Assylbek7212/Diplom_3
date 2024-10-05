@@ -20,10 +20,25 @@ class ProfilePage(BasePage):
         orders = self.find_elements(self.locators.USER_ORDERS)
         return [order.text for order in orders]
 
-    @allure.step("Клик по вкладке 'Профиль'")
+    @allure.step("Переход на вкладку профиля")
     def go_to_profile_tab(self):
-        """Переход на вкладку 'Профиль' в личном кабинете"""
-        self.action_click(self.locators.PROFILE_TAB)
+        """Переход на вкладку профиля"""
+        self.action_click(self.locators.TAB_PROFILE)
+
+    @allure.step("Ввод нового имени пользователя: {name}")
+    def enter_name(self, name):
+        """Ввод нового имени пользователя"""
+        self.clear_and_enter_text(self.locators.INPUT_NAME, name)
+
+    @allure.step("Сохранение изменений профиля")
+    def click_save_button(self):
+        """Клик по кнопке 'Сохранить'"""
+        self.action_click(self.locators.BUTTON_SAVE)
+
+    @allure.step("Получение имени пользователя")
+    def get_name(self):
+        """Получение текущего имени пользователя"""
+        return self.get_element_text(self.locators.INPUT_NAME)
 
     @allure.step("Выход из аккаунта")
     def logout(self):

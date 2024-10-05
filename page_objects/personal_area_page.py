@@ -20,12 +20,22 @@ class PersonalArea(BasePage):
         """Проверяет, что после выхода отображается форма логина"""
         return self.wait_for_element(StellarBurgersLoginLocators.TITLE_FORM).is_displayed()
 
-    @allure.step("Проверка, что пользователь находится на странице личного кабинета")
+    @allure.step("Проверка нахождения в личном кабинете")
     def is_at_personal_area(self):
-        """Проверяет, что пользователь находится на странице личного кабинета"""
-        return self.driver.current_url == URL.PERSONAL_AREA.value
+        """Проверка, что пользователь находится на странице личного кабинета"""
+        return self.is_element_visible(self.locators.TITLE_PERSONAL_AREA)
 
-    @allure.step("Проверка, что кнопка выхода отображается")
+    @allure.step("Проверка наличия кнопки 'Выход' в личном кабинете")
     def is_exit_button_displayed(self):
-        """Проверяет, что кнопка выхода отображается на странице личного кабинета"""
-        return self.wait_for_element(self.locators.BUTTON_EXIT).is_displayed()
+        """Проверка отображения кнопки 'Выход'"""
+        return self.is_element_visible(self.locators.BUTTON_EXIT)
+
+    @allure.step("Клик по кнопке 'Выход'")
+    def click_button_exit(self):
+        """Клик по кнопке 'Выход' в личном кабинете"""
+        self.action_click(self.locators.BUTTON_EXIT)
+
+    @allure.step("Проверка перехода на страницу логина")
+    def is_logged_out(self):
+        """Проверка, что пользователь разлогинился"""
+        return self.is_at_url(URL.LOGIN.value)

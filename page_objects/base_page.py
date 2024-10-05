@@ -80,3 +80,15 @@ class BasePage:
     def wait_for_overlay_to_disappear(self, locator, timeout=10):
         """Ожидание исчезновения перекрывающего элемента"""
         WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located(locator))
+
+    @allure.step("Очистка поля и ввод текста: {locator}")
+    def clear_and_enter_text(self, locator, text):
+        """Очистка поля и ввод текста"""
+        element = self.wait_for_element(locator)
+        element.clear()
+        element.send_keys(text)
+
+    @allure.step("Получение текста элемента: {locator}")
+    def get_element_text(self, locator):
+        """Получение текста элемента"""
+        return self.wait_for_element(locator).text
