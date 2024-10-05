@@ -23,21 +23,35 @@ class BasePage:
         """Получение списка элементов на странице"""
         return WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
 
-    @allure.step("Переход по URL и ожидание загрузки элемента: {locator}")
-    def navigate(self, url: str, locator):
-        """Переход на страницу и ожидание появления элемента"""
+    @allure.step("Переход по URL: {url}")
+    def navigate(self, url, expected_element=None):
+        """Открытие указанного URL и ожидание загрузки элемента"""
         self.driver.get(url)
-        WebDriverWait(self.driver, 15).until(EC.visibility_of_element_located(locator))
+        if expected_element:
+            self.wait_for_element(expected_element)
 
-    @allure.step("Ввод текста '{text}' в элемент: {locator}")
-    def enter_test(self, locator, text: str):
-        """Очистка и ввод текста в элемент"""
-        element = self.driver.find_element(*locator)
+    @allure.step("Ввод текста: {text} в элемент {locator}")
+    def enter_text(self, locator, text):
+        """Ввод текста в указанный элемент"""
+        element = self.wait_for_element(locator)
         element.clear()
         element.send_keys(text)
 
-    @allure.step("Клик по элементу: {element_click} и ожидание элемента: {expected_element}")
-    def action_click(self, element_click, expected_element):
-        """Клик по элементу и ожидание загрузки нового элемента"""
-        self.driver.find_element(*element_click).click()
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(expected_element))
+    @allure.step("Клик по элементу: {locator}")
+    def action_click(self, locator, expected_element=None):
+        """Клик по элементу и ожидание загрузки другого элемента, если указан"""
+        element = self.wait_for_element(locator)
+        element.click()
+        if expected_element:
+            self.wait_for_element(expected_element)
+
+    @allure.step("Получение текущего URL страницы")
+    def get_current_url(self):
+        """Возвращает текущий URL"""
+        return self.driver.current_url
+
+    @allure.step("Проверка, что пользователь находится на странице с URL: {url}")
+    def is_at_url(self, url):
+        """Проверка, что текущий URL совпадает с ожидаемым"""
+        return self.get_current_url() == url
+

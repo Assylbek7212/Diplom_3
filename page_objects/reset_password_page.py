@@ -12,7 +12,7 @@ class ResetPasswordPage(BasePage):
     @allure.step("Ввод нового пароля")
     def enter_password(self):
         """Ввод нового пароля в поле ввода"""
-        self.enter_test(StellarBurgersResetPasswordLocators.PASSWORD, get_faker_user()["password"])
+        self.enter_text(StellarBurgersResetPasswordLocators.PASSWORD, get_faker_user()["password"])
 
     @allure.step("Получение атрибута 'type' для поля пароля")
     def get_attribute_password(self):
