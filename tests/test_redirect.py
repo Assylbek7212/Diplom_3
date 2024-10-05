@@ -1,32 +1,68 @@
+# tests/test_redirect.py
 import allure
-
+import pytest
 from page_objects.header import Header
-from locators.home_page_locators import StellarBurgersHomePageLocators
-from locators.order_feed_page_locators import StellarBurgersOrderFeedLocators
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
+from page_objects.home_page import HomePage
+from page_objects.order_page import OrderPage
+from page_objects.login_page import LoginPage
 from config import DOMEN, URL
 
 
+@pytest.mark.usefixtures("login")
 class TestRedirect:
 
-    @allure.title('переход по клику на «Конструктор»')
+    @allure.title('Переход по клику на «Конструктор»')
     def test_click_on_constructor(self, web_driver):
+        """Проверка перехода на страницу конструктора по клику на кнопку в шапке"""
         header = Header(web_driver)
-        header.click_link_personal_area()
-        header.click_link_constructor()
-        WebDriverWait(web_driver, 10).until(expected_conditions.presence_of_element_located(
-            StellarBurgersHomePageLocators.DIV_BUNS))
-        url = web_driver.current_url
-        assert url == DOMEN
-        assert web_driver.find_element(*StellarBurgersHomePageLocators.DIV_BUNS).is_displayed()
+        home_page = HomePage(web_driver)
 
-    @allure.title('переход по клику на «Лента заказов»')
+        header.go_to_constructor()
+
+        # Ожидание появления элемента
+        home_page.wait_for_element(home_page.locators.DIV_BUNS)
+
+        # Проверка URL страницы
+        assert home_page.is_at_url(DOMEN), f"Ожидался URL: {DOMEN}, но получен: {home_page.get_current_url()}"
+
+    @allure.title('Переход по клику на «Лента заказов»')
     def test_click_on_order_feed(self, web_driver):
+        """Проверка перехода на страницу ленты заказов по клику на кнопку в шапке"""
         header = Header(web_driver)
-        header.click_link_order_feed()
-        WebDriverWait(web_driver, 10).until(expected_conditions.presence_of_element_located(
-            StellarBurgersOrderFeedLocators.TITLE_FORM))
-        url = web_driver.current_url
-        assert url == URL.FEED.value
-        assert web_driver.find_element(*StellarBurgersOrderFeedLocators.TITLE_FORM).is_displayed()
+        order_page = OrderPage(web_driver)
+
+        header.go_to_order_feed()
+
+        # Ожидание появления элемента
+        order_page.wait_for_element(order_page.locators.ORDERS_PAGE)
+
+        # Проверка URL страницы
+        assert order_page.is_at_order_feed(), f"Ожидался URL: {URL.FEED.value}, но получен: {order_page.get_current_url()}"
+
+    @allure.title('Переход по клику на логотип Stellar Burgers')
+    def test_click_on_logo_redirects_to_home(self, web_driver):
+        """Проверка перехода на главную страницу по клику на логотип"""
+        header = Header(web_driver)
+        home_page = HomePage(web_driver)
+
+        header.go_to_order_feed()
+        header.click_logo()
+
+        # Ожидание появления элемента
+        home_page.wait_for_element(home_page.locators.LOGIN_BUTTON)
+
+        # Проверка URL
+        assert home_page.is_at_url(DOMEN), f"Ожидался URL: {DOMEN}, но получен: {home_page.get_current_url()}"
+
+    @allure.title('Переход на страницу логина при доступе к ленте заказов без авторизации')
+    def test_redirect_to_login_when_unauthorized_user_access_feed(self, web_driver):
+        """Проверка перехода на страницу логина при попытке неавторизованного пользователя попасть в ленту заказов"""
+        login_page = LoginPage(web_driver)
+        header = Header(web_driver)
+
+        login_page.open_login_page()
+
+        header.go_to_order_feed()
+
+        # Проверка, что был выполнен переход на страницу логина
+        assert login_page.is_at_url(URL.LOGIN.value), "Пользователь не был перенаправлен на страницу логина"

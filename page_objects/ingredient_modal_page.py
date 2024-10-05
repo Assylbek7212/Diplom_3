@@ -20,5 +20,4 @@ class IngredientModalPage(BasePage):
     @allure.step("Закрытие модального окна ингредиента")
     def close_modal(self):
         """Закрытие модального окна ингредиента"""
-        self.action_click(StellarBurgersIngredientModal.MODAL_BUTTON_CLOSE,
-                          StellarBurgersIngredientModal.MODAL_TITLE)
+        self.action_click(StellarBurgersIngredientModal.MODAL_BUTTON_CLOSE, StellarBurgersIngredientModal.MODAL_TITLE)

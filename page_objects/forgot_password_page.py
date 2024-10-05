@@ -22,8 +22,3 @@ class ForgotPasswordPage(BasePage):
     def click_button_restore_password(self):
         """Клик по кнопке 'Восстановить пароль' на странице восстановления пароля"""
         self.action_click(StellarBurgersForgotPasswordLocators.BUTTON_RESTORE_PASSWORD)
-
-    @allure.step("Проверка, что кнопка восстановления пароля отображается")
-    def is_restore_button_displayed(self):
-        """Проверка, что кнопка 'Восстановить пароль' видна на странице"""
-        return self.wait_for_element(StellarBurgersForgotPasswordLocators.BUTTON_RESTORE_PASSWORD).is_displayed()

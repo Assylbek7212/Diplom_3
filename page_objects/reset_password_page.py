@@ -5,7 +5,6 @@ from helpers import get_faker_user
 
 
 class ResetPasswordPage(BasePage):
-
     def __init__(self, web_driver):
         super().__init__(web_driver)
 

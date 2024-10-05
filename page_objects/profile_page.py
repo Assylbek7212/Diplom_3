@@ -1,7 +1,7 @@
 import allure
 from page_objects.base_page import BasePage
 from locators.profile_page_locators import StellarBurgersProfilePageLocators
-from data.urls import PROFILE_ORDERS_URL
+from config import URL
 
 
 class ProfilePage(BasePage):
@@ -12,7 +12,7 @@ class ProfilePage(BasePage):
     @allure.step("Открытие страницы заказов пользователя")
     def open_user_orders(self):
         """Переход на страницу заказов пользователя в личном кабинете"""
-        self.navigate(PROFILE_ORDERS_URL, self.locators.USER_ORDERS)
+        self.navigate(URL.PERSONAL_AREA.value, self.locators.USER_ORDERS)
 
     @allure.step("Получение списка заказов пользователя")
     def get_user_orders(self):

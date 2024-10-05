@@ -1,7 +1,7 @@
 import allure
-from selenium.webdriver.common.by import By
 from page_objects.base_page import BasePage
 from locators.ingredient_page import StellarBurgersIngredientPage
+
 
 class IngredientPage(BasePage):
     def __init__(self, driver):

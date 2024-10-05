@@ -1,3 +1,4 @@
+# page_objects/login_page.py
 import allure
 from page_objects.base_page import BasePage
 from locators.login_locators import StellarBurgersLoginLocators

@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 class StellarBurgersOrderPageLocators:
-    PLACE_ORDER_BUTTON = (By.XPATH, "//button[contains(text(), 'Оформить заказ')]")  #
+    PLACE_ORDER_BUTTON = (By.XPATH, "//button[contains(text(), 'Оформить заказ')]")
     ORDER_CONFIRMATION = (By.XPATH, "//h1[contains(text(), 'Ваш заказ начали готовить')]")
     TOTAL_ORDERS_COUNTER = (By.XPATH, "//*[contains(text(), 'Выполнено за все время')]/following-sibling::span")
     TODAY_ORDERS_COUNTER = (By.XPATH, "//*[contains(text(), 'Выполнено за сегодня')]/following-sibling::span")

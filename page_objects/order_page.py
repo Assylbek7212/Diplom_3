@@ -1,6 +1,7 @@
 import allure
 from page_objects.base_page import BasePage
 from locators.order_feed_page_locators import StellarBurgersOrderPageLocators
+from config import URL
 
 
 class OrderPage(BasePage):
@@ -21,7 +22,7 @@ class OrderPage(BasePage):
     @allure.step("Открытие страницы 'Лента заказов'")
     def open_orders_page(self):
         """Переход на страницу 'Лента заказов'"""
-        self.action_click(self.locators.ORDERS_PAGE, self.locators.ORDER_NUMBER_IN_PROGRESS)
+        self.navigate_to_page(self.locators.ORDERS_PAGE)
 
     @allure.step("Клик по номеру заказа")
     def click_order(self):
@@ -50,3 +51,8 @@ class OrderPage(BasePage):
         """Получение идентификатора последнего оформленного заказа"""
         order_confirmation_text = self.wait_for_element(self.locators.ORDER_CONFIRMATION).text
         return order_confirmation_text.split('#')[-1].strip()
+
+    @allure.step("Проверка URL страницы")
+    def is_at_order_feed(self):
+        """Проверяет, что текущий URL соответствует странице ленты заказов"""
+        return self.is_at_url(URL.FEED.value)
