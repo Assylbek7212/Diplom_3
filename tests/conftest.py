@@ -4,6 +4,7 @@ from page_objects.login_page import LoginPage
 from selenium import webdriver
 from helpers import get_faker_user
 from config import DOMEN
+from page_objects.order_page import OrderPage
 
 
 def _get_driver(name):
@@ -46,3 +47,17 @@ def login(web_driver, signup):
     login_page = LoginPage(web_driver)
     login_page.login(signup["email"], signup["password"])
     return signup
+
+@pytest.fixture(scope="class")
+def login_user(self, web_driver):
+    """Фикстура для логина пользователя"""
+    login_page = LoginPage(web_driver)
+    login_page.login('username', 'password')
+    return login_page
+
+@pytest.fixture
+def open_order_page(self, web_driver, login_user):
+    """Фикстура для открытия страницы заказов"""
+    order_page = OrderPage(web_driver)
+    order_page.open_orders_page()
+    return order_page

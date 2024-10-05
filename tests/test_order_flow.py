@@ -1,8 +1,6 @@
 import allure
 import pytest
-from page_objects.login_page import LoginPage
 from page_objects.ingredient_page import IngredientPage
-from page_objects.order_page import OrderPage
 from page_objects.profile_page import ProfilePage
 from page_objects.feed_page import FeedPage
 from page_objects.in_progress_page import InProgressPage
@@ -11,19 +9,6 @@ from page_objects.in_progress_page import InProgressPage
 @pytest.mark.usefixtures("setup")
 class TestOrderFlow:
 
-    @pytest.fixture(scope="class")
-    def login_user(self, web_driver):
-        """Фикстура для логина пользователя"""
-        login_page = LoginPage(web_driver)
-        login_page.login('username', 'password')
-        return login_page
-
-    @pytest.fixture
-    def open_order_page(self, web_driver, login_user):
-        """Фикстура для открытия страницы заказов"""
-        order_page = OrderPage(web_driver)
-        order_page.open_orders_page()
-        return order_page
 
     @allure.title('Увеличение счётчика ингредиента при добавлении в заказ')
     def test_ingredient_counter_increases_after_addition(self, web_driver):
