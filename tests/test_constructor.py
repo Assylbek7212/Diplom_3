@@ -1,3 +1,4 @@
+# tests/test_constructor.py
 import allure
 from page_objects.home_page import HomePage
 from page_objects.ingredient_modal_page import IngredientModalPage
@@ -12,11 +13,9 @@ class TestConstructor:
         ingredient_modal = IngredientModalPage(web_driver)
 
         home_page.open_home_page()
-
         home_page.click_fluorescent_bun()
 
         assert ingredient_modal.is_modal_open(), "Модальное окно не открылось"
-
         name_ingredient = home_page.get_fluorescent_bun_name()
         name_ingredient_in_modal = ingredient_modal.get_ingredient_name_in_modal()
         assert name_ingredient == name_ingredient_in_modal, "Названия ингредиентов не совпадают"
@@ -34,4 +33,4 @@ class TestConstructor:
 
         ingredient_modal.close_modal()
 
-        assert ingredient_modal.is_modal_open() is False, "Модальное окно не закрылось"
+        assert ingredient_modal.is_modal_closed(), "Модальное окно не закрылось"

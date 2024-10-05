@@ -6,11 +6,17 @@ from locators.ingredient_modal_locators import StellarBurgersIngredientModal
 class IngredientModalPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
+        self.locators = StellarBurgersIngredientModal
 
     @allure.step("Проверка, что модальное окно ингредиента открыто")
     def is_modal_open(self):
         """Проверка открытия модального окна"""
-        return self.wait_for_element(StellarBurgersIngredientModal.MODAL_TITLE).is_displayed()
+        return self.is_element_visible(self.locators.MODAL_TITLE)
+
+    @allure.step("Проверка, что модальное окно ингредиента закрыто")
+    def is_modal_closed(self):
+        """Проверка закрытия модального окна"""
+        return self.is_element_invisible(self.locators.MODAL_TITLE)
 
     @allure.step("Получение названия ингредиента из модального окна")
     def get_ingredient_name_in_modal(self):
@@ -20,4 +26,5 @@ class IngredientModalPage(BasePage):
     @allure.step("Закрытие модального окна ингредиента")
     def close_modal(self):
         """Закрытие модального окна ингредиента"""
-        self.action_click(StellarBurgersIngredientModal.MODAL_BUTTON_CLOSE, StellarBurgersIngredientModal.MODAL_TITLE)
+        self.action_click(self.locators.MODAL_BUTTON_CLOSE)
+        self.wait_for_element_to_disappear(self.locators.MODAL_TITLE)

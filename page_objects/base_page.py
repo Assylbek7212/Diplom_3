@@ -54,3 +54,29 @@ class BasePage:
     def is_at_url(self, url):
         """Проверка, что текущий URL совпадает с ожидаемым"""
         return self.get_current_url() == url
+
+    @allure.step("Ожидание исчезновения элемента: {locator}")
+    def wait_for_element_to_disappear(self, locator, timeout=10):
+        """Ожидание исчезновения элемента со страницы"""
+        return WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located(locator))
+
+    @allure.step("Проверка, что элемент виден: {locator}")
+    def is_element_visible(self, locator, timeout=10):
+        """Проверка, что элемент виден на странице"""
+        try:
+            return self.wait_for_element(locator, timeout).is_displayed()
+        except:
+            return False
+
+    @allure.step("Проверка, что элемент невиден: {locator}")
+    def is_element_invisible(self, locator, timeout=10):
+        """Проверка, что элемент невиден на странице"""
+        try:
+            return WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located(locator))
+        except:
+            return False
+
+    @allure.step("Ожидание исчезновения перекрывающего элемента: {locator}")
+    def wait_for_overlay_to_disappear(self, locator, timeout=10):
+        """Ожидание исчезновения перекрывающего элемента"""
+        WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located(locator))
